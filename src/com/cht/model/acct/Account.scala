@@ -18,37 +18,38 @@
 package com.cht.model.acct
 
 import com.cht.model.financial._
+import com.cht.constant._
 
 abstract class Account extends AccountBalance with AccountActivity
 
-case class Asset(name:String, basis:String, bal:String) extends Account {
+case class Asset(code:String, name:String, basis:String) extends Account {
   override def debitAccount(value:Money,acctType:Int):Money = {return null}
   override def creditAccount(value:Money,acctType:Int):Money = {return null}
   override def addTransaction(trans:AccountTransaction) = {}
   override def removeTransactionById(transId:Int) = {}
 }
-case class Liability(name:String, basis:String, bal:String) extends Account {
-  override def debitAccount(value:Money,acctType:Int):Money = {return null}
-  override def creditAccount(value:Money,acctType:Int):Money = {return null}
-  override def addTransaction(trans:AccountTransaction) = {}
-  override def removeTransactionById(transId:Int) = {}
-}
-
-case class Equity(name:String, basis:String, bal:String) extends Account {
+case class Liability(code:String, name:String, basis:String) extends Account {
   override def debitAccount(value:Money,acctType:Int):Money = {return null}
   override def creditAccount(value:Money,acctType:Int):Money = {return null}
   override def addTransaction(trans:AccountTransaction) = {}
   override def removeTransactionById(transId:Int) = {}
 }
 
-case class Revenue(name:String, basis:String, bal:String) extends Account {
+case class Equity(code:String, name:String, basis:String) extends Account {
   override def debitAccount(value:Money,acctType:Int):Money = {return null}
   override def creditAccount(value:Money,acctType:Int):Money = {return null}
   override def addTransaction(trans:AccountTransaction) = {}
   override def removeTransactionById(transId:Int) = {}
 }
 
-case class Expense(name:String, basis:String, bal:String) extends Account {
+case class Revenue(code:String, name:String, basis:String) extends Account {
+  override def debitAccount(value:Money,acctType:Int):Money = {return null}
+  override def creditAccount(value:Money,acctType:Int):Money = {return null}
+  override def addTransaction(trans:AccountTransaction) = {}
+  override def removeTransactionById(transId:Int) = {}
+}
+
+case class Expense(code:String, name:String, basis:String) extends Account {
   override def debitAccount(value:Money,acctType:Int):Money = {return null}
   override def creditAccount(value:Money,acctType:Int):Money = {return null}
   override def addTransaction(trans:AccountTransaction) = {}
