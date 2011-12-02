@@ -18,24 +18,23 @@
 package com.cht.collection.acct
 
 import com.cht.model.acct._
+import com.cht.constant._
 
 /**
  * A Scala singleton object to represent our Chart of Accounts
  */
 object ChartOfAccounts {
-//	def create(default:Boolean):ChartOfAccounts = {
-//	  if (default) 
-//	    new ChartOfAccounts {
-//		  initDefaults
-//	  	}
-//	  else 
-//		new ChartOfAccounts {
-//			var accounts = List{new Account {
-				// initializations
-//				}
-//			}
-//		}
-//	}
+    
+	def create(default:Boolean):ChartOfAccounts = {
+	  if (default) 
+	    new ChartOfAccounts {
+		  initDefaults
+	  	}
+	  else 
+		new ChartOfAccounts {
+			accounts = List(new Asset("100","Cash",AccountConstants.DEBIT))
+		}
+	}
 }
 
 /**
@@ -45,87 +44,68 @@ object ChartOfAccounts {
 class ChartOfAccounts {
   
   var accounts:List[Account] = null
-  
-  var lastAssetCode:Int = 0
-  
-  var lastLiabilityCode:Int = 0
-  
-  var lastEquityCode:Int = 0
-  
-  var lastExpenseCode:Int = 0
-  
-  var lastRevenueCode:Int = 0
-  
-  
+ 
   /**
    * A method to initialize the chart of accounts with a default set of working
    * accounts
    */
   def initDefaults = {
     // create a base set of accounts
-  val list = List(
-      Asset("Cash","Unknown","100.00"),
-      Expense("Office Supplies","Unknown","25.00"),
-      Expense("Books and Periodicals","Unknown","75.00"),
-      Equity("Capital","Unknown","1000.00"),
-      Revenue("Income","Unknown","750.00"))
-    
+	  accounts = List(
+      Asset("100","Cash",AccountConstants.DEBIT),
+      Asset("101","Equipment",AccountConstants.DEBIT),
+      
+      Liability("200","Taxes Payable", AccountConstants.CREDIT),
+      Liability("201","Expenses Payable", AccountConstants.CREDIT),
+      Liability("202","Liability Insurance Payable", AccountConstants.CREDIT),
+      Liability("203","Workers Comp Payable", AccountConstants.CREDIT),
+      
+      Equity("300","Capital", AccountConstants.CREDIT),
+      Equity("301","Retained Earnings", AccountConstants.CREDIT),
+      Equity("302","Shareholder Distributions", AccountConstants.CREDIT),
+
+      Revenue("400","Income", AccountConstants.CREDIT),
+      Revenue("401","Interest Earned", AccountConstants.CREDIT),
+      
+      Expense("500","Office Supplies", AccountConstants.DEBIT),
+      Expense("501","Rent Expense", AccountConstants.DEBIT),
+      Expense("502","Electric Expense", AccountConstants.DEBIT),
+      Expense("503","Medical Expense", AccountConstants.DEBIT),
+      Expense("504","Capital Expense", AccountConstants.DEBIT),
+      Expense("505","Books and Periodicals", AccountConstants.DEBIT),
+      Expense("506","Miscellaneous Expense", AccountConstants.DEBIT),
+      Expense("507","Software", AccountConstants.DEBIT),
+      Expense("508","Network and Hosting", AccountConstants.DEBIT),
+      Expense("509","Liability Insurance", AccountConstants.DEBIT),
+      Expense("510","Workers Compensation", AccountConstants.DEBIT),
+      Expense("511","Postage Expense", AccountConstants.DEBIT),
+      Expense("512","Shipping Expense", AccountConstants.DEBIT),
+      Expense("513","Meals Expense", AccountConstants.DEBIT),
+      Expense("514","Auto Expense", AccountConstants.DEBIT))
+      
   }
   
-  /**
-   * A method to return a unique code that relates to the account type, asset, 
-   * liability, etc.
-   */
-  def getAvailableCode(acctType:String, offset:Int):String = {
-    
-    var c = 0
-    
-    // Asset
-    if (acctType.equals("Asset")) {
-    	if (lastAssetCode != null)
-    		c = lastAssetCode + offset
-    	else c = 100
-    	   	lastAssetCode = c
-    	return c.toString()
-    }
-    
-    // Liability
-    if (acctType.equals("Liability")) {
-    	if (lastLiabilityCode != null)
-    		c = lastLiabilityCode + offset
-    	else c = 200
-    	  	lastLiabilityCode = c
-    	return c.toString()
-    }
-    
-    // Equity
-    if (acctType.equals("Equity")) {
-    	if (lastEquityCode != null)
-    		c = lastEquityCode + offset
-    	else c = 300
-    	  	lastEquityCode = c
-    	return c.toString()
-    	}
-    
-    // Expense
-    if (acctType.equals("Expense")) {
-    	if (lastExpenseCode != null)
-    		c = lastExpenseCode + offset
-    	else c = 400
-    	  	lastLiabilityCode = c
-    	return c.toString()
-    }
-    
-    // Revenue
-    if (acctType.equals("Revenue")) {
-    	if (lastRevenueCode != null)
-    		c = lastRevenueCode + offset
-    	else c = 500
-    	  	lastRevenueCode = c
-    	return c.toString()
-    }
-
-   return c.toString()
+  def printChart = {
+	val iter = accounts.toIterator
+  
+	for (acct <- iter) 
+		printAccount(acct)
   }
-
+  
+      
+  def printAccount(account:Account) {
+    account match {
+      case Asset (a,b,c) =>
+        println (a + "," + b + "," + c)
+      case Liability (a,b,c) =>
+        println (a + "," + b + "," + c)
+      case Revenue (a,b,c) =>
+        println (a + "," + b + "," + c)
+      case Expense (a,b,c) =>
+        println (a + "," + b + "," + c)
+      case Equity(a,b,c) =>
+        println (a + "," + b + "," + c)
+    }
+  }
+  
 }
